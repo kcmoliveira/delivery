@@ -50,7 +50,7 @@ public class AccountController {
                         .signWith(SignatureAlgorithm.HS512, SECRET)
                         .compact();
 
-                res.status( HttpStatus.ACCEPTED_202 );
+                res.status( HttpStatus.OK_200 );
                 res.header( HEADER_STRING, TOKEN_PREFIX + jwtToken );
 
                 return "";
@@ -58,7 +58,7 @@ public class AccountController {
                 Response response = new Response();
 
                 if( e instanceof AuthenticationException ) {
-                    response.setStatusCode( HttpStatus.UNAUTHORIZED_401 );
+                    response.setStatusCode( HttpStatus.FORBIDDEN_403 );
                     response.setMessage( e.getMessage() );
                 } else {
                     response.setStatusCode( HttpStatus.INTERNAL_SERVER_ERROR_500 );
