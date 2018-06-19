@@ -23,7 +23,7 @@ public class AccountController {
     public static void configureRoutes() {
         Spark.post( "/account/signup", (req, res) -> {
             try {
-                AccountDTO accountDTO = JsonUtils.convertFromJson(req.body(), AccountDTO.class);
+                AccountDTO accountDTO = JsonUtils.convertFromJson( req.body(), AccountDTO.class );
 
                 accountDTO = new AccountService().signUp(accountDTO);
 
@@ -39,15 +39,15 @@ public class AccountController {
 
         Spark.post( "/account/authenticate", (req, res) -> {
             try {
-                LoginDTO loginDTO = JsonUtils.convertFromJson(req.body(), LoginDTO.class);
+                LoginDTO loginDTO = JsonUtils.convertFromJson( req.body(), LoginDTO.class );
 
-                AccountDTO accountDTO = new AccountService().authenticate(loginDTO);
+                AccountDTO accountDTO = new AccountService().authenticate( loginDTO );
 
 
                 final String jwtToken = Jwts.builder()
-                        .setSubject(accountDTO.getUsername())
-                        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                        .signWith(SignatureAlgorithm.HS512, SECRET)
+                        .setSubject( accountDTO.getUsername() )
+                        .setExpiration( new Date(System.currentTimeMillis() + EXPIRATION_TIME ) )
+                        .signWith( SignatureAlgorithm.HS512, SECRET )
                         .compact();
 
                 res.status( HttpStatus.OK_200 );
