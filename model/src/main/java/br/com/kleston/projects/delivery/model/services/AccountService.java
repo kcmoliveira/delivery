@@ -1,10 +1,13 @@
 package br.com.kleston.projects.delivery.model.services;
 
 import br.com.kleston.projects.delivery.model.dtos.AccountDTO;
+import br.com.kleston.projects.delivery.model.dtos.LoginDTO;
 import br.com.kleston.projects.delivery.model.exceptions.AccountAlreadyExistsException;
+import br.com.kleston.projects.delivery.model.exceptions.AuthenticationException;
 import br.com.kleston.projects.delivery.model.repository.AccountRepository;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,30 +23,17 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public String login(AccountDTO accountDTO) {
+    public AccountDTO authenticate(LoginDTO loginDTO) {
         try {
-//            final AccountDTO fromDatabase = this.accountRepository.findBy( Account.ACCOUNT.ID );
+            final AccountDTO fromDatabase = this.accountRepository.findByUsername( loginDTO.getUsername() );
 //
-//            if ( ! BCrypt.checkpw( accountDTO.getPassword(), new BCryptPasswordEncoder() .encode( accountDTO.getPassword() ) ) ) {
-//                res.status(401 );
-//
-//                return "";
-//            }
-//
-//            final String jwtToken = Jwts.builder()
-//                    .setSubject( accountDTO.getUsername() )
-//                    .setExpiration( new Date( System.currentTimeMillis() + EXPIRATION_TIME) )
-//                    .signWith( SignatureAlgorithm.HS512, SECRET )
-//                    .compact();
-//
-//            res.status(200 );
-//            res.header( HEADER_STRING, TOKEN_PREFIX + jwtToken );
+            if ( ! BCrypt.checkpw( loginDTO.getPassword(), fromDatabase.getPassword() ) ) {
+                throw new AuthenticationException( "Bad credentials." );
+            }
 
-            return "";
+            return fromDatabase;
         } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
+            throw new RuntimeException( "Error authenticating.", e );
         }
     }
 
