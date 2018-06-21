@@ -10,8 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>restapi</module>
+        <module>account</module>
         <module>model</module>
+        <module>auth</module>
     </modules>
 
     <dependencies>
