@@ -8,7 +8,5 @@ public class AccountController {
         Spark.port( 7001 );
 
         Spark.post( "/account/signup", AccountRoutes.signup);
-
-        Spark.post( "/account/authenticate", AuthRoutes.authenticate );
     }
 }
