@@ -24,7 +24,7 @@ public class AccountRoutes {
             return "";
         } catch (Exception e) {
             if (e instanceof AccountAlreadyExistsException) {
-
+                return e;
             }
 
             return "";
