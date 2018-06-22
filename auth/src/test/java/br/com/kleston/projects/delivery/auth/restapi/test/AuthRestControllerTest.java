@@ -1,6 +1,6 @@
 package br.com.kleston.projects.delivery.auth.restapi.test;
 
-import br.com.kleston.projects.delivery.model.config.PersistenceContext;
+import br.com.kleston.projects.delivery.auth.restapi.AuthStarter;
 import br.com.kleston.projects.delivery.model.dtos.LoginDTO;
 import br.com.kleston.projects.delivery.model.util.JsonUtils;
 import org.junit.Test;
@@ -10,9 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -21,13 +19,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.nio.charset.Charset;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @RunWith( SpringRunner.class )
 @AutoConfigureMockMvc
-//@ContextConfiguration( classes = PersistenceContext.class, loader = AnnotationConfigContextLoader.class )
+@ContextConfiguration( classes = AuthStarter.class )
 public class AuthRestControllerTest {
-    public static final String AUTHENTICATE = "/authenticate";
+    public static final String AUTHENTICATE = "http://localhost:8001/authenticate";
 
     private MediaType contentTypeJson = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -47,7 +44,9 @@ public class AuthRestControllerTest {
 
         // SIGN_IN
         MockHttpServletRequestBuilder contentRequestSignIn =
-                MockMvcRequestBuilders.post( AUTHENTICATE )
+                MockMvcRequestBuilders
+                        //.post( AUTHENTICATE )
+                        .post( AUTHENTICATE )
                         .contentType( contentTypeJson )
                         .content( signInData );
 

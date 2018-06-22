@@ -24,7 +24,7 @@ public class AccountService {
             Throwable cause = e.getCause();
 
             if( cause instanceof MySQLIntegrityConstraintViolationException && cause.getMessage().contains( "Duplicate entry" ) ) {
-                throw new AccountAlreadyExistsException();
+                throw new AccountAlreadyExistsException( "User already exists." );
             }
 
             throw new RuntimeException( "Error signing up.", e );

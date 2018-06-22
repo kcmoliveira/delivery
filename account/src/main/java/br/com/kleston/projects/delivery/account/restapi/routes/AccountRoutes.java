@@ -10,24 +10,41 @@ import br.com.kleston.projects.delivery.model.ws.Response;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.eclipse.jetty.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import spark.Route;
 
 import java.util.Date;
 
+@Service
 public class AccountRoutes {
-    public static final Route signup = (req, res) -> {
+    @Autowired
+    private AccountService accountService;
+
+    public final Route signup = (req, res) -> {
         try {
             AccountDTO accountDTO = JsonUtils.convertFromJson(req.body(), AccountDTO.class);
 
-            accountDTO = new AccountService().signUp(accountDTO);
+            accountDTO = this.accountService.signUp(accountDTO);
 
-            return "";
+            Response response = new Response();
+            response.setStatusCode( HttpStatus.CREATED_201 );
+            response.setMessage( "" );
+            response.setData( accountDTO );
+
+            return JsonUtils.convertToJson( response );
         } catch (Exception e) {
+            Response response = new Response();
+
             if (e instanceof AccountAlreadyExistsException) {
-                return e;
+                response.setStatusCode( HttpStatus.INTERNAL_SERVER_ERROR_500 );
+                response.setMessage( e.getMessage() );
+            } else {
+                response.setStatusCode( HttpStatus.INTERNAL_SERVER_ERROR_500 );
+                response.setMessage( "Error signing up." );
             }
 
-            return "";
+            return JsonUtils.convertToJson( response );
         }
     };
 }

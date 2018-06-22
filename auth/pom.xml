@@ -26,5 +26,12 @@
             <artifactId>spark-core</artifactId>
             <version>RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>RELEASE</version>
+            <!--<scope>test</scope>-->
+        </dependency>
     </dependencies>
 </project>

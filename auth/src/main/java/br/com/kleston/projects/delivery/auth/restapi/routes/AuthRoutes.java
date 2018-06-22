@@ -8,36 +8,47 @@ import br.com.kleston.projects.delivery.model.security.SecurityUtils;
 import br.com.kleston.projects.delivery.model.util.JsonUtils;
 import br.com.kleston.projects.delivery.model.ws.Response;
 import org.eclipse.jetty.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import spark.Route;
 
 import static br.com.kleston.projects.delivery.model.security.SecurityConstraints.HEADER_STRING;
 import static br.com.kleston.projects.delivery.model.security.SecurityConstraints.TOKEN_PREFIX;
 
+@Service
 public class AuthRoutes {
-    public static final Route authenticate = (req, res) -> {
-        try {
-            LoginDTO loginDTO = JsonUtils.convertFromJson(req.body(), LoginDTO.class);
+    @Autowired
+    private AuthService authService;
 
-            AccountDTO accountDTO = new AuthService().authenticate( loginDTO );
+    public final Route authenticate = (req, res) -> {
+        try {
+            LoginDTO loginDTO = JsonUtils.convertFromJson( req.body(), LoginDTO.class );
+
+            AccountDTO accountDTO = this.authService.authenticate( loginDTO );
 
             final String jwtToken = SecurityUtils.generateToken( accountDTO.getUsername() );
 
-            res.status(HttpStatus.OK_200);
-            res.header(HEADER_STRING, TOKEN_PREFIX + jwtToken);
+            res.status( HttpStatus.OK_200 );
+            res.header( HEADER_STRING, TOKEN_PREFIX + jwtToken );
 
-            return "";
+            Response response = new Response();
+            response.setStatusCode( HttpStatus.OK_200 );
+            response.setMessage( "" );
+            response.setData( accountDTO );
+
+            return JsonUtils.convertToJson( response );
         } catch (Exception e) {
             Response response = new Response();
 
             if (e instanceof AuthenticationException) {
-                response.setStatusCode(HttpStatus.FORBIDDEN_403);
-                response.setMessage(e.getMessage());
+                response.setStatusCode( HttpStatus.FORBIDDEN_403 );
+                response.setMessage( e.getMessage() );
             } else {
-                response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR_500);
-                response.setMessage("Error authenticating.");
+                response.setStatusCode( HttpStatus.INTERNAL_SERVER_ERROR_500 );
+                response.setMessage( "Error authenticating." );
             }
 
-            return response;
+            return JsonUtils.convertToJson( response );
         }
     };
 }
