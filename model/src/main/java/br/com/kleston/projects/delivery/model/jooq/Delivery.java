@@ -4,7 +4,11 @@
 package br.com.kleston.projects.delivery.model.jooq;
 
 
-import br.com.kleston.projects.delivery.model.jooq.tables.Account;
+import br.com.kleston.projects.delivery.model.jooq.tables.Accounts;
+import br.com.kleston.projects.delivery.model.jooq.tables.Orders;
+import br.com.kleston.projects.delivery.model.jooq.tables.OrdersFoods;
+import br.com.kleston.projects.delivery.model.jooq.tables.Products;
+import br.com.kleston.projects.delivery.model.jooq.tables.Restaurants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +34,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Delivery extends SchemaImpl {
 
-    private static final long serialVersionUID = -75917386;
+    private static final long serialVersionUID = 584573052;
 
     /**
      * The reference instance of <code>delivery</code>
@@ -38,9 +42,29 @@ public class Delivery extends SchemaImpl {
     public static final Delivery DELIVERY = new Delivery();
 
     /**
-     * The table <code>delivery.account</code>.
+     * The table <code>delivery.accounts</code>.
      */
-    public final Account ACCOUNT = br.com.kleston.projects.delivery.model.jooq.tables.Account.ACCOUNT;
+    public final Accounts ACCOUNTS = br.com.kleston.projects.delivery.model.jooq.tables.Accounts.ACCOUNTS;
+
+    /**
+     * The table <code>delivery.orders</code>.
+     */
+    public final Orders ORDERS = br.com.kleston.projects.delivery.model.jooq.tables.Orders.ORDERS;
+
+    /**
+     * The table <code>delivery.orders_foods</code>.
+     */
+    public final OrdersFoods ORDERS_FOODS = br.com.kleston.projects.delivery.model.jooq.tables.OrdersFoods.ORDERS_FOODS;
+
+    /**
+     * The table <code>delivery.products</code>.
+     */
+    public final Products PRODUCTS = br.com.kleston.projects.delivery.model.jooq.tables.Products.PRODUCTS;
+
+    /**
+     * The table <code>delivery.restaurants</code>.
+     */
+    public final Restaurants RESTAURANTS = br.com.kleston.projects.delivery.model.jooq.tables.Restaurants.RESTAURANTS;
 
     /**
      * No further instances allowed
@@ -67,6 +91,10 @@ public class Delivery extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            Account.ACCOUNT);
+            Accounts.ACCOUNTS,
+            Orders.ORDERS,
+            OrdersFoods.ORDERS_FOODS,
+            Products.PRODUCTS,
+            Restaurants.RESTAURANTS);
     }
 }

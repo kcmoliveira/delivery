@@ -3,35 +3,30 @@ package br.com.kleston.projects.delivery.auth.restapi.test;
 import br.com.kleston.projects.delivery.auth.restapi.AuthStarter;
 import br.com.kleston.projects.delivery.model.dtos.LoginDTO;
 import br.com.kleston.projects.delivery.model.util.JsonUtils;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import org.eclipse.jetty.http.HttpStatus;
+import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import spark.Spark;
 
-import java.nio.charset.Charset;
+import static br.com.kleston.projects.delivery.model.security.SecurityConstraints.AUTHORIZATION_HEADER;
 
-@SpringBootTest
-@RunWith( SpringRunner.class )
-@AutoConfigureMockMvc
-@ContextConfiguration( classes = AuthStarter.class )
+//@SpringBootTest
+//@RunWith( SpringRunner.class )
+//@AutoConfigureMockMvc
+//@ContextConfiguration( classes = AuthStarter.class )
 public class AuthRestControllerTest {
-    public static final String AUTHENTICATE = "http://localhost:8001/authenticate";
+    public static final String AUTHENTICATE = "http://localhost:8001/account/authenticate";
 
-    private MediaType contentTypeJson = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
+    @BeforeClass
+    public static void beforeTest() {
+        AuthStarter.main( new String[] { } );
 
-    @Autowired
-    private MockMvc mockMvc;
+        Spark.awaitInitialization();
+    }
 
     @Test
     public void authenticateTest() throws Exception {
@@ -40,18 +35,33 @@ public class AuthRestControllerTest {
         loginDTO.setUsername( "kmacedo" );
         loginDTO.setPassword( "123456" );
 
-        String signInData = JsonUtils.convertToJson( loginDTO );
+        String signInData = JsonUtils.convertToPrettyJson( loginDTO );
 
-        // SIGN_IN
-        MockHttpServletRequestBuilder contentRequestSignIn =
-                MockMvcRequestBuilders
-                        //.post( AUTHENTICATE )
-                        .post( AUTHENTICATE )
-                        .contentType( contentTypeJson )
-                        .content( signInData );
+        HttpResponse<JsonNode> response = Unirest.post( AUTHENTICATE )
+                .header("accept", "application/json")
+                .body( signInData )
+                .asJson();
 
-        final ResultMatcher resultExpect = MockMvcResultMatchers.status().isOk();
+        Assert.assertEquals( HttpStatus.OK_200, response.getStatus() );
+        Assert.assertNotNull( response.getHeaders() );
+        Assert.assertFalse( response.getHeaders().isEmpty() );
+        Assert.assertNotNull( response.getHeaders().get( AUTHORIZATION_HEADER ) );
+    }
 
-        this.mockMvc.perform( contentRequestSignIn ).andExpect( resultExpect );
+    @Test
+    public void authenticateFailedTest() throws Exception {
+        LoginDTO loginDTO = new LoginDTO();
+
+        loginDTO.setUsername( "kmacedo2" );
+        loginDTO.setPassword( "123456" );
+
+        String signInData = JsonUtils.convertToPrettyJson( loginDTO );
+
+        HttpResponse<JsonNode> response = Unirest.post( AUTHENTICATE )
+                .header("accept", "application/json")
+                .body( signInData )
+                .asJson();
+
+        Assert.assertEquals( HttpStatus.FORBIDDEN_403, response.getStatus() );
     }
 }

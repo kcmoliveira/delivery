@@ -15,9 +15,17 @@ public class JsonUtils {
         }
     }
 
-    public static String convertToJson(Object object) {
+    public static String convertToPrettyJson(Object object) {
         try {
             return JsonUtils.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString( object );
+        } catch (IOException e) {
+            throw new RuntimeException( "Error converting object to JSON." );
+        }
+    }
+
+    public static String convertToJson(Object object) {
+        try {
+            return JsonUtils.objectMapper.writeValueAsString( object );
         } catch (IOException e) {
             throw new RuntimeException( "Error converting object to JSON." );
         }

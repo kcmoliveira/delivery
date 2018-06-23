@@ -1,20 +1,14 @@
 package br.com.kleston.projects.delivery.account.restapi.routes;
 
 import br.com.kleston.projects.delivery.model.dtos.AccountDTO;
-import br.com.kleston.projects.delivery.model.dtos.LoginDTO;
 import br.com.kleston.projects.delivery.model.exceptions.AccountAlreadyExistsException;
-import br.com.kleston.projects.delivery.model.exceptions.AuthenticationException;
 import br.com.kleston.projects.delivery.account.restapi.services.AccountService;
 import br.com.kleston.projects.delivery.model.util.JsonUtils;
 import br.com.kleston.projects.delivery.model.ws.Response;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spark.Route;
-
-import java.util.Date;
 
 @Service
 public class AccountRoutes {
@@ -32,7 +26,7 @@ public class AccountRoutes {
             response.setMessage( "" );
             response.setData( accountDTO );
 
-            return JsonUtils.convertToJson( response );
+            return JsonUtils.convertToPrettyJson( response );
         } catch (Exception e) {
             Response response = new Response();
 
@@ -44,7 +38,7 @@ public class AccountRoutes {
                 response.setMessage( "Error signing up." );
             }
 
-            return JsonUtils.convertToJson( response );
+            return JsonUtils.convertToPrettyJson( response );
         }
     };
 }

@@ -4,11 +4,20 @@
 package br.com.kleston.projects.delivery.model.jooq;
 
 
-import br.com.kleston.projects.delivery.model.jooq.tables.Account;
-import br.com.kleston.projects.delivery.model.jooq.tables.records.AccountRecord;
+import br.com.kleston.projects.delivery.model.jooq.tables.Accounts;
+import br.com.kleston.projects.delivery.model.jooq.tables.Orders;
+import br.com.kleston.projects.delivery.model.jooq.tables.OrdersFoods;
+import br.com.kleston.projects.delivery.model.jooq.tables.Products;
+import br.com.kleston.projects.delivery.model.jooq.tables.Restaurants;
+import br.com.kleston.projects.delivery.model.jooq.tables.records.AccountsRecord;
+import br.com.kleston.projects.delivery.model.jooq.tables.records.OrdersFoodsRecord;
+import br.com.kleston.projects.delivery.model.jooq.tables.records.OrdersRecord;
+import br.com.kleston.projects.delivery.model.jooq.tables.records.ProductsRecord;
+import br.com.kleston.projects.delivery.model.jooq.tables.records.RestaurantsRecord;
 
 import javax.annotation.Generated;
 
+import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
@@ -32,30 +41,59 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<AccountRecord, Long> IDENTITY_ACCOUNT = Identities0.IDENTITY_ACCOUNT;
+    public static final Identity<AccountsRecord, Long> IDENTITY_ACCOUNTS = Identities0.IDENTITY_ACCOUNTS;
+    public static final Identity<OrdersRecord, Long> IDENTITY_ORDERS = Identities0.IDENTITY_ORDERS;
+    public static final Identity<OrdersFoodsRecord, Long> IDENTITY_ORDERS_FOODS = Identities0.IDENTITY_ORDERS_FOODS;
+    public static final Identity<ProductsRecord, Long> IDENTITY_PRODUCTS = Identities0.IDENTITY_PRODUCTS;
+    public static final Identity<RestaurantsRecord, Long> IDENTITY_RESTAURANTS = Identities0.IDENTITY_RESTAURANTS;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<AccountRecord> KEY_ACCOUNT_PRIMARY = UniqueKeys0.KEY_ACCOUNT_PRIMARY;
-    public static final UniqueKey<AccountRecord> KEY_ACCOUNT_DVR_ACCOUNT_USERNAME_UINDEX = UniqueKeys0.KEY_ACCOUNT_DVR_ACCOUNT_USERNAME_UINDEX;
+    public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_PRIMARY = UniqueKeys0.KEY_ACCOUNTS_PRIMARY;
+    public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_USERNAME = UniqueKeys0.KEY_ACCOUNTS_USERNAME;
+    public static final UniqueKey<OrdersRecord> KEY_ORDERS_PRIMARY = UniqueKeys0.KEY_ORDERS_PRIMARY;
+    public static final UniqueKey<OrdersFoodsRecord> KEY_ORDERS_FOODS_PRIMARY = UniqueKeys0.KEY_ORDERS_FOODS_PRIMARY;
+    public static final UniqueKey<ProductsRecord> KEY_PRODUCTS_PRIMARY = UniqueKeys0.KEY_PRODUCTS_PRIMARY;
+    public static final UniqueKey<RestaurantsRecord> KEY_RESTAURANTS_PRIMARY = UniqueKeys0.KEY_RESTAURANTS_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<OrdersRecord, AccountsRecord> ORDERS_IBFK_1 = ForeignKeys0.ORDERS_IBFK_1;
+    public static final ForeignKey<OrdersRecord, RestaurantsRecord> ORDERS_IBFK_2 = ForeignKeys0.ORDERS_IBFK_2;
+    public static final ForeignKey<OrdersFoodsRecord, OrdersRecord> ORDERS_FOODS_IBFK_1 = ForeignKeys0.ORDERS_FOODS_IBFK_1;
+    public static final ForeignKey<OrdersFoodsRecord, ProductsRecord> ORDERS_FOODS_IBFK_2 = ForeignKeys0.ORDERS_FOODS_IBFK_2;
+    public static final ForeignKey<ProductsRecord, RestaurantsRecord> PRODUCTS_IBFK_1 = ForeignKeys0.PRODUCTS_IBFK_1;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
-        public static Identity<AccountRecord, Long> IDENTITY_ACCOUNT = Internal.createIdentity(Account.ACCOUNT, Account.ACCOUNT.ID);
+        public static Identity<AccountsRecord, Long> IDENTITY_ACCOUNTS = Internal.createIdentity(Accounts.ACCOUNTS, Accounts.ACCOUNTS.ID);
+        public static Identity<OrdersRecord, Long> IDENTITY_ORDERS = Internal.createIdentity(Orders.ORDERS, Orders.ORDERS.ID);
+        public static Identity<OrdersFoodsRecord, Long> IDENTITY_ORDERS_FOODS = Internal.createIdentity(OrdersFoods.ORDERS_FOODS, OrdersFoods.ORDERS_FOODS.ID);
+        public static Identity<ProductsRecord, Long> IDENTITY_PRODUCTS = Internal.createIdentity(Products.PRODUCTS, Products.PRODUCTS.ID);
+        public static Identity<RestaurantsRecord, Long> IDENTITY_RESTAURANTS = Internal.createIdentity(Restaurants.RESTAURANTS, Restaurants.RESTAURANTS.ID);
     }
 
     private static class UniqueKeys0 {
-        public static final UniqueKey<AccountRecord> KEY_ACCOUNT_PRIMARY = Internal.createUniqueKey(Account.ACCOUNT, "KEY_account_PRIMARY", Account.ACCOUNT.ID);
-        public static final UniqueKey<AccountRecord> KEY_ACCOUNT_DVR_ACCOUNT_USERNAME_UINDEX = Internal.createUniqueKey(Account.ACCOUNT, "KEY_account_dvr_account_username_uindex", Account.ACCOUNT.USERNAME);
+        public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_PRIMARY = Internal.createUniqueKey(Accounts.ACCOUNTS, "KEY_accounts_PRIMARY", Accounts.ACCOUNTS.ID);
+        public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_USERNAME = Internal.createUniqueKey(Accounts.ACCOUNTS, "KEY_accounts_username", Accounts.ACCOUNTS.USERNAME);
+        public static final UniqueKey<OrdersRecord> KEY_ORDERS_PRIMARY = Internal.createUniqueKey(Orders.ORDERS, "KEY_orders_PRIMARY", Orders.ORDERS.ID);
+        public static final UniqueKey<OrdersFoodsRecord> KEY_ORDERS_FOODS_PRIMARY = Internal.createUniqueKey(OrdersFoods.ORDERS_FOODS, "KEY_orders_foods_PRIMARY", OrdersFoods.ORDERS_FOODS.ID);
+        public static final UniqueKey<ProductsRecord> KEY_PRODUCTS_PRIMARY = Internal.createUniqueKey(Products.PRODUCTS, "KEY_products_PRIMARY", Products.PRODUCTS.ID);
+        public static final UniqueKey<RestaurantsRecord> KEY_RESTAURANTS_PRIMARY = Internal.createUniqueKey(Restaurants.RESTAURANTS, "KEY_restaurants_PRIMARY", Restaurants.RESTAURANTS.ID);
+    }
+
+    private static class ForeignKeys0 {
+        public static final ForeignKey<OrdersRecord, AccountsRecord> ORDERS_IBFK_1 = Internal.createForeignKey(br.com.kleston.projects.delivery.model.jooq.Keys.KEY_ACCOUNTS_PRIMARY, Orders.ORDERS, "orders_ibfk_1", Orders.ORDERS.ID_ACCOUNT);
+        public static final ForeignKey<OrdersRecord, RestaurantsRecord> ORDERS_IBFK_2 = Internal.createForeignKey(br.com.kleston.projects.delivery.model.jooq.Keys.KEY_RESTAURANTS_PRIMARY, Orders.ORDERS, "orders_ibfk_2", Orders.ORDERS.ID_RESTAURANT);
+        public static final ForeignKey<OrdersFoodsRecord, OrdersRecord> ORDERS_FOODS_IBFK_1 = Internal.createForeignKey(br.com.kleston.projects.delivery.model.jooq.Keys.KEY_ORDERS_PRIMARY, OrdersFoods.ORDERS_FOODS, "orders_foods_ibfk_1", OrdersFoods.ORDERS_FOODS.ID_ORDER);
+        public static final ForeignKey<OrdersFoodsRecord, ProductsRecord> ORDERS_FOODS_IBFK_2 = Internal.createForeignKey(br.com.kleston.projects.delivery.model.jooq.Keys.KEY_PRODUCTS_PRIMARY, OrdersFoods.ORDERS_FOODS, "orders_foods_ibfk_2", OrdersFoods.ORDERS_FOODS.ID_PRODUCT);
+        public static final ForeignKey<ProductsRecord, RestaurantsRecord> PRODUCTS_IBFK_1 = Internal.createForeignKey(br.com.kleston.projects.delivery.model.jooq.Keys.KEY_RESTAURANTS_PRIMARY, Products.PRODUCTS, "products_ibfk_1", Products.PRODUCTS.ID_RESTAURANT);
     }
 }

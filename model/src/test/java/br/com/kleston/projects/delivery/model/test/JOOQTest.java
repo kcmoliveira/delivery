@@ -2,8 +2,8 @@ package br.com.kleston.projects.delivery.model.test;
 
 import br.com.kleston.projects.delivery.model.config.PersistenceContext;
 import br.com.kleston.projects.delivery.model.dtos.AccountDTO;
-import br.com.kleston.projects.delivery.model.jooq.tables.Account;
-import br.com.kleston.projects.delivery.model.jooq.tables.records.AccountRecord;
+import br.com.kleston.projects.delivery.model.jooq.tables.Accounts;
+import br.com.kleston.projects.delivery.model.jooq.tables.records.AccountsRecord;
 import org.jooq.DSLContext;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class JOOQTest {
     @Test
     public void insertTestSemDTO() {
         try {
-            Account account = Account.ACCOUNT;
+            Accounts account = Accounts.ACCOUNTS;
 
             this.dsl.insertInto( account )
                     .set( account.NAME, "Kleverton Oliveira" )
@@ -47,7 +47,7 @@ public class JOOQTest {
             accountDTO.setUsername( "kmacedo" );
             accountDTO.setPassword( "123456" );
 
-            AccountRecord account = this.dsl.newRecord( Account.ACCOUNT, accountDTO );
+            AccountsRecord account = this.dsl.newRecord( Accounts.ACCOUNTS, accountDTO );
 
             account.store();
 

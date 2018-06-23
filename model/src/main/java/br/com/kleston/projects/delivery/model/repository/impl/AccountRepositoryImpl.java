@@ -1,13 +1,13 @@
 package br.com.kleston.projects.delivery.model.repository.impl;
 
 import br.com.kleston.projects.delivery.model.dtos.AccountDTO;
-import br.com.kleston.projects.delivery.model.jooq.tables.Account;
+import br.com.kleston.projects.delivery.model.jooq.tables.Accounts;
 import br.com.kleston.projects.delivery.model.repository.AccountRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AccountRepositoryImpl extends BaseRepositoryImpl<Account, AccountDTO> implements AccountRepository {
-    public static final Account table = Account.ACCOUNT;
+public class AccountRepositoryImpl extends BaseRepositoryImpl<Accounts, AccountDTO> implements AccountRepository {
+    public static final Accounts table = Accounts.ACCOUNTS;
     public static final Class<AccountDTO> dtoClass = AccountDTO.class;
 
     public AccountRepositoryImpl() {
@@ -18,6 +18,6 @@ public class AccountRepositoryImpl extends BaseRepositoryImpl<Account, AccountDT
     public AccountDTO findByUsername(String username) {
         return this.getDsl().select()
                 .from( this.table )
-                .where( Account.ACCOUNT.USERNAME.eq( username ) ).fetchOneInto( this.dtoClass );
+                .where( Accounts.ACCOUNTS.USERNAME.eq( username ) ).fetchOneInto( this.dtoClass );
     }
 }

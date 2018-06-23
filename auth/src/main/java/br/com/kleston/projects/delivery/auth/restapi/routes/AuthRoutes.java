@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spark.Route;
 
-import static br.com.kleston.projects.delivery.model.security.SecurityConstraints.HEADER_STRING;
+import static br.com.kleston.projects.delivery.model.security.SecurityConstraints.AUTHORIZATION_HEADER;
 import static br.com.kleston.projects.delivery.model.security.SecurityConstraints.TOKEN_PREFIX;
 
 @Service
@@ -29,26 +29,30 @@ public class AuthRoutes {
             final String jwtToken = SecurityUtils.generateToken( accountDTO.getUsername() );
 
             res.status( HttpStatus.OK_200 );
-            res.header( HEADER_STRING, TOKEN_PREFIX + jwtToken );
+            res.header( AUTHORIZATION_HEADER, TOKEN_PREFIX + jwtToken );
 
             Response response = new Response();
             response.setStatusCode( HttpStatus.OK_200 );
             response.setMessage( "" );
             response.setData( accountDTO );
 
-            return JsonUtils.convertToJson( response );
+            return JsonUtils.convertToPrettyJson( response );
         } catch (Exception e) {
             Response response = new Response();
 
             if (e instanceof AuthenticationException) {
+                res.status( HttpStatus.FORBIDDEN_403 );
+
                 response.setStatusCode( HttpStatus.FORBIDDEN_403 );
                 response.setMessage( e.getMessage() );
             } else {
+                res.status( HttpStatus.INTERNAL_SERVER_ERROR_500 );
+
                 response.setStatusCode( HttpStatus.INTERNAL_SERVER_ERROR_500 );
                 response.setMessage( "Error authenticating." );
             }
 
-            return JsonUtils.convertToJson( response );
+            return JsonUtils.convertToPrettyJson( response );
         }
     };
 }

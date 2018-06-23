@@ -4,7 +4,11 @@
 package br.com.kleston.projects.delivery.model.jooq;
 
 
-import br.com.kleston.projects.delivery.model.jooq.tables.Account;
+import br.com.kleston.projects.delivery.model.jooq.tables.Accounts;
+import br.com.kleston.projects.delivery.model.jooq.tables.Orders;
+import br.com.kleston.projects.delivery.model.jooq.tables.OrdersFoods;
+import br.com.kleston.projects.delivery.model.jooq.tables.Products;
+import br.com.kleston.projects.delivery.model.jooq.tables.Restaurants;
 
 import javax.annotation.Generated;
 
@@ -30,15 +34,33 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index ACCOUNT_DVR_ACCOUNT_USERNAME_UINDEX = Indexes0.ACCOUNT_DVR_ACCOUNT_USERNAME_UINDEX;
-    public static final Index ACCOUNT_PRIMARY = Indexes0.ACCOUNT_PRIMARY;
+    public static final Index ACCOUNTS_PRIMARY = Indexes0.ACCOUNTS_PRIMARY;
+    public static final Index ACCOUNTS_USERNAME = Indexes0.ACCOUNTS_USERNAME;
+    public static final Index ORDERS_ID_ACCOUNT = Indexes0.ORDERS_ID_ACCOUNT;
+    public static final Index ORDERS_ID_RESTAURANT = Indexes0.ORDERS_ID_RESTAURANT;
+    public static final Index ORDERS_PRIMARY = Indexes0.ORDERS_PRIMARY;
+    public static final Index ORDERS_FOODS_ID_ORDER = Indexes0.ORDERS_FOODS_ID_ORDER;
+    public static final Index ORDERS_FOODS_ID_PRODUCT = Indexes0.ORDERS_FOODS_ID_PRODUCT;
+    public static final Index ORDERS_FOODS_PRIMARY = Indexes0.ORDERS_FOODS_PRIMARY;
+    public static final Index PRODUCTS_ID_RESTAURANT = Indexes0.PRODUCTS_ID_RESTAURANT;
+    public static final Index PRODUCTS_PRIMARY = Indexes0.PRODUCTS_PRIMARY;
+    public static final Index RESTAURANTS_PRIMARY = Indexes0.RESTAURANTS_PRIMARY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index ACCOUNT_DVR_ACCOUNT_USERNAME_UINDEX = Internal.createIndex("dvr_account_username_uindex", Account.ACCOUNT, new OrderField[] { Account.ACCOUNT.USERNAME }, true);
-        public static Index ACCOUNT_PRIMARY = Internal.createIndex("PRIMARY", Account.ACCOUNT, new OrderField[] { Account.ACCOUNT.ID }, true);
+        public static Index ACCOUNTS_PRIMARY = Internal.createIndex("PRIMARY", Accounts.ACCOUNTS, new OrderField[] { Accounts.ACCOUNTS.ID }, true);
+        public static Index ACCOUNTS_USERNAME = Internal.createIndex("username", Accounts.ACCOUNTS, new OrderField[] { Accounts.ACCOUNTS.USERNAME }, true);
+        public static Index ORDERS_ID_ACCOUNT = Internal.createIndex("id_account", Orders.ORDERS, new OrderField[] { Orders.ORDERS.ID_ACCOUNT }, false);
+        public static Index ORDERS_ID_RESTAURANT = Internal.createIndex("id_restaurant", Orders.ORDERS, new OrderField[] { Orders.ORDERS.ID_RESTAURANT }, false);
+        public static Index ORDERS_PRIMARY = Internal.createIndex("PRIMARY", Orders.ORDERS, new OrderField[] { Orders.ORDERS.ID }, true);
+        public static Index ORDERS_FOODS_ID_ORDER = Internal.createIndex("id_order", OrdersFoods.ORDERS_FOODS, new OrderField[] { OrdersFoods.ORDERS_FOODS.ID_ORDER }, false);
+        public static Index ORDERS_FOODS_ID_PRODUCT = Internal.createIndex("id_product", OrdersFoods.ORDERS_FOODS, new OrderField[] { OrdersFoods.ORDERS_FOODS.ID_PRODUCT }, false);
+        public static Index ORDERS_FOODS_PRIMARY = Internal.createIndex("PRIMARY", OrdersFoods.ORDERS_FOODS, new OrderField[] { OrdersFoods.ORDERS_FOODS.ID }, true);
+        public static Index PRODUCTS_ID_RESTAURANT = Internal.createIndex("id_restaurant", Products.PRODUCTS, new OrderField[] { Products.PRODUCTS.ID_RESTAURANT }, false);
+        public static Index PRODUCTS_PRIMARY = Internal.createIndex("PRIMARY", Products.PRODUCTS, new OrderField[] { Products.PRODUCTS.ID }, true);
+        public static Index RESTAURANTS_PRIMARY = Internal.createIndex("PRIMARY", Restaurants.RESTAURANTS, new OrderField[] { Restaurants.RESTAURANTS.ID }, true);
     }
 }

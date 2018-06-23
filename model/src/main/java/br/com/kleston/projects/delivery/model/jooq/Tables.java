@@ -4,7 +4,11 @@
 package br.com.kleston.projects.delivery.model.jooq;
 
 
-import br.com.kleston.projects.delivery.model.jooq.tables.Account;
+import br.com.kleston.projects.delivery.model.jooq.tables.Accounts;
+import br.com.kleston.projects.delivery.model.jooq.tables.Orders;
+import br.com.kleston.projects.delivery.model.jooq.tables.OrdersFoods;
+import br.com.kleston.projects.delivery.model.jooq.tables.Products;
+import br.com.kleston.projects.delivery.model.jooq.tables.Restaurants;
 
 import javax.annotation.Generated;
 
@@ -23,7 +27,27 @@ import javax.annotation.Generated;
 public class Tables {
 
     /**
-     * The table <code>delivery.account</code>.
+     * The table <code>delivery.accounts</code>.
      */
-    public static final Account ACCOUNT = br.com.kleston.projects.delivery.model.jooq.tables.Account.ACCOUNT;
+    public static final Accounts ACCOUNTS = br.com.kleston.projects.delivery.model.jooq.tables.Accounts.ACCOUNTS;
+
+    /**
+     * The table <code>delivery.orders</code>.
+     */
+    public static final Orders ORDERS = br.com.kleston.projects.delivery.model.jooq.tables.Orders.ORDERS;
+
+    /**
+     * The table <code>delivery.orders_foods</code>.
+     */
+    public static final OrdersFoods ORDERS_FOODS = br.com.kleston.projects.delivery.model.jooq.tables.OrdersFoods.ORDERS_FOODS;
+
+    /**
+     * The table <code>delivery.products</code>.
+     */
+    public static final Products PRODUCTS = br.com.kleston.projects.delivery.model.jooq.tables.Products.PRODUCTS;
+
+    /**
+     * The table <code>delivery.restaurants</code>.
+     */
+    public static final Restaurants RESTAURANTS = br.com.kleston.projects.delivery.model.jooq.tables.Restaurants.RESTAURANTS;
 }
