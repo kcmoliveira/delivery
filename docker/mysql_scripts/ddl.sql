@@ -29,7 +29,7 @@ create table orders (
 	foreign key (id_restaurant) references restaurants(id)
 );
 
-create table orders_foods (
+create table orders_products (
   id bigint auto_increment primary key,
 	id_order bigint not null,
 	id_product bigint not null,

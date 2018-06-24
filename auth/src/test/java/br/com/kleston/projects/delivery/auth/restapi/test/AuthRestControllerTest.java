@@ -45,7 +45,7 @@ public class AuthRestControllerTest {
         Assert.assertEquals( HttpStatus.OK_200, response.getStatus() );
         Assert.assertNotNull( response.getHeaders() );
         Assert.assertFalse( response.getHeaders().isEmpty() );
-        Assert.assertNotNull( response.getHeaders().get( AUTHORIZATION_HEADER ) );
+        Assert.assertNotNull( response.getHeaders().getFirst( AUTHORIZATION_HEADER ) );
     }
 
     @Test

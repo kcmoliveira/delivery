@@ -6,7 +6,7 @@ package br.com.kleston.projects.delivery.model.jooq;
 
 import br.com.kleston.projects.delivery.model.jooq.tables.Accounts;
 import br.com.kleston.projects.delivery.model.jooq.tables.Orders;
-import br.com.kleston.projects.delivery.model.jooq.tables.OrdersFoods;
+import br.com.kleston.projects.delivery.model.jooq.tables.OrdersProducts;
 import br.com.kleston.projects.delivery.model.jooq.tables.Products;
 import br.com.kleston.projects.delivery.model.jooq.tables.Restaurants;
 
@@ -34,7 +34,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Delivery extends SchemaImpl {
 
-    private static final long serialVersionUID = 584573052;
+    private static final long serialVersionUID = -644569218;
 
     /**
      * The reference instance of <code>delivery</code>
@@ -52,9 +52,9 @@ public class Delivery extends SchemaImpl {
     public final Orders ORDERS = br.com.kleston.projects.delivery.model.jooq.tables.Orders.ORDERS;
 
     /**
-     * The table <code>delivery.orders_foods</code>.
+     * The table <code>delivery.orders_products</code>.
      */
-    public final OrdersFoods ORDERS_FOODS = br.com.kleston.projects.delivery.model.jooq.tables.OrdersFoods.ORDERS_FOODS;
+    public final OrdersProducts ORDERS_PRODUCTS = br.com.kleston.projects.delivery.model.jooq.tables.OrdersProducts.ORDERS_PRODUCTS;
 
     /**
      * The table <code>delivery.products</code>.
@@ -93,7 +93,7 @@ public class Delivery extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             Accounts.ACCOUNTS,
             Orders.ORDERS,
-            OrdersFoods.ORDERS_FOODS,
+            OrdersProducts.ORDERS_PRODUCTS,
             Products.PRODUCTS,
             Restaurants.RESTAURANTS);
     }

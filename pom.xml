@@ -13,6 +13,7 @@
         <module>account</module>
         <module>model</module>
         <module>auth</module>
+        <module>order</module>
     </modules>
 
     <dependencies>

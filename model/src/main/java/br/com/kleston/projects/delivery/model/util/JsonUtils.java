@@ -1,11 +1,16 @@
 package br.com.kleston.projects.delivery.model.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 
 public class JsonUtils {
     private static ObjectMapper objectMapper = new ObjectMapper();
+
+    static {
+        JsonUtils.objectMapper.findAndRegisterModules().configure( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false );
+    }
 
     public static <T> T convertFromJson(String json, Class<T> target) {
         try {
