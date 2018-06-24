@@ -1,4 +1,4 @@
-package br.com.kleston.projects.delivery.account.restapi.filters;
+package br.com.kleston.projects.delivery.model.filters;
 
 import io.jsonwebtoken.Jwts;
 import spark.Request;
@@ -7,14 +7,11 @@ import spark.Spark;
 
 import java.util.Optional;
 
-public class JWTAuthorizationFilter {
-    static final long EXPIRATION_TIME = 864_000_000; // 10 days
-    static final String SECRET = "nAnDapArbAT";
-    static final String TOKEN_PREFIX = "Bearer ";
-    static final String HEADER_STRING = "Authorization";
+import static br.com.kleston.projects.delivery.model.security.SecurityConstraints.*;
 
+public class JWTAuthorizationFilter {
     public static void doFilter(Request req, Response res) {
-        final Optional<String> token = Optional.ofNullable( req.headers( HEADER_STRING ) );
+        final Optional<String> token = Optional.ofNullable( req.headers( AUTHORIZATION_HEADER ) );
 
         if ( ! token.isPresent() ) {
             Spark.halt(401 );

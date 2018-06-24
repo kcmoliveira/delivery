@@ -1,25 +1,29 @@
 package br.com.kleston.projects.delivery.order.restapi.controllers;
 
+import br.com.kleston.projects.delivery.model.filters.JWTAuthorizationFilter;
 import br.com.kleston.projects.delivery.order.restapi.routes.OrderRoutes;
 import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import spark.Spark;
+import spark.Service;
 
 @Controller
 public class OrderController {
     @Autowired
     private OrderRoutes orderRoutes;
 
-//    @PostConstruct
     public void configureRoutes() {
-        Spark.port( 9001 );
+        Service http = Service.ignite();
 
-        Spark.after( ( (request, response) -> response.type("application/json" ) ) );
+        http.port( 9001 );
 
-        Spark.post( "/account/orders", this.orderRoutes.createOrder );
+        http.after( ( (request, response) -> response.type("application/json" ) ) );
 
-        Spark.post( "*", (req, res) -> {
+        http.before( "/api/*", JWTAuthorizationFilter::doFilter );
+
+        http.post( "/api/account/:username/orders", this.orderRoutes.createOrder );
+
+        http.post( "*", (req, res) -> {
             res.status( HttpStatus.NOT_FOUND_404 );
 
             return "{}";

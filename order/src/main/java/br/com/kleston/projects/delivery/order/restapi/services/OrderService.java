@@ -1,7 +1,9 @@
 package br.com.kleston.projects.delivery.order.restapi.services;
 
+import br.com.kleston.projects.delivery.model.dtos.AccountDTO;
 import br.com.kleston.projects.delivery.model.dtos.OrderDTO;
 import br.com.kleston.projects.delivery.model.dtos.OrderProductDTO;
+import br.com.kleston.projects.delivery.model.repository.AccountRepository;
 import br.com.kleston.projects.delivery.model.repository.OrderProductRepository;
 import br.com.kleston.projects.delivery.model.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class OrderService {
     @Autowired
     private OrderProductRepository orderProductRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @Transactional
     public OrderDTO saveOrder(OrderDTO orderDTO) {
         OrderDTO orderSaved = this.orderRepository.save( orderDTO );
@@ -29,5 +34,9 @@ public class OrderService {
         } );
 
         return orderSaved;
+    }
+
+    public AccountDTO findByUsername(String username) {
+        return this.accountRepository.findByUsername( username );
     }
 }

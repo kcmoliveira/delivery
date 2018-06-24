@@ -1,5 +1,6 @@
 package br.com.kleston.projects.delivery.order.restapi.routes;
 
+import br.com.kleston.projects.delivery.model.dtos.AccountDTO;
 import br.com.kleston.projects.delivery.model.dtos.OrderDTO;
 import br.com.kleston.projects.delivery.model.util.JsonUtils;
 import br.com.kleston.projects.delivery.model.ws.Response;
@@ -17,6 +18,11 @@ public class OrderRoutes {
     public final Route createOrder = (req, res) -> {
         try {
             OrderDTO orderDTO = JsonUtils.convertFromJson( req.body(), OrderDTO.class );
+
+            String username = req.params( "username" );
+
+            AccountDTO accountDTO = this.orderService.findByUsername( username );
+            orderDTO.setIdAccount( accountDTO.getId() );
 
             orderDTO = this.orderService.saveOrder( orderDTO );
 

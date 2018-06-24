@@ -1,28 +1,26 @@
 package br.com.kleston.projects.delivery.auth.restapi.controllers;
 
 import br.com.kleston.projects.delivery.auth.restapi.routes.AuthRoutes;
-import br.com.kleston.projects.delivery.model.util.JsonUtils;
 import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import spark.Spark;
-
-import javax.annotation.PostConstruct;
+import spark.Service;
 
 @Controller
 public class AuthController {
     @Autowired
     private AuthRoutes authRoutes;
 
-    @PostConstruct
     public void configureRoutes() {
-        Spark.port( 8001 );
+        Service http = Service.ignite();
 
-        Spark.after( ( (request, response) -> response.type("application/json" ) ) );
+        http.port( 8001 );
 
-        Spark.post( "/account/authenticate", this.authRoutes.authenticate );
+        http.after( ( (request, response) -> response.type("application/json" ) ) );
 
-        Spark.post( "*", (req, res) -> {
+        http.post( "/account/authenticate", this.authRoutes.authenticate );
+
+        http.post( "*", (req, res) -> {
             res.status( HttpStatus.NOT_FOUND_404 );
 
             return "{}";

@@ -31,7 +31,7 @@ public class AccountRoutes {
             Response response = new Response();
 
             if (e instanceof AccountAlreadyExistsException) {
-                response.setStatusCode( HttpStatus.INTERNAL_SERVER_ERROR_500 );
+                response.setStatusCode( HttpStatus.CONFLICT_409 );
                 response.setMessage( e.getMessage() );
             } else {
                 response.setStatusCode( HttpStatus.INTERNAL_SERVER_ERROR_500 );
