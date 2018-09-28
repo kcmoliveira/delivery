@@ -4,7 +4,7 @@ services:
   delivery_mysql:
     container_name: delivery_mysql
     image: mysql
-    restart: always
+#    restart: always
     ports:
       - '3306:3306'
     environment:
@@ -15,13 +15,13 @@ services:
     volumes:
       - "./mysql_scripts:/docker-entrypoint-initdb.d"
 
-  delivery_rabbitmq:
-    container_name: delivery_rabbitmq
-    image: rabbitmq:management
-    restart: always
-    ports:
-      - "4369:4369"
-      - "5671:5671"
-      - "5672:5672"
-      - "15671:15671"
-      - "15672:15672"
+#  delivery_rabbitmq:
+#    container_name: delivery_rabbitmq
+#    image: rabbitmq:management
+#    restart: always
+#    ports:
+#      - "4369:4369"
+#      - "5671:5671"
+#      - "5672:5672"
+#      - "15671:15671"
+#      - "15672:15672"
